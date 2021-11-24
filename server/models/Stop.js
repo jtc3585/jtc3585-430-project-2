@@ -1,28 +1,28 @@
 const mongoose = require('mongoose');
 const _ = require('underscore');
 
-let DomoModel = {};
+let StopModel = {};
 
 // mongoose.Types.ObectID is a function that
 // converts string ID to real mongo ID
 const convertId = mongoose.Types.ObjectId;
 const setName = (name) => _.escape(name).trim();
 
-const DomoSchema = new mongoose.Schema({
+const StopSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
     set: setName,
   },
-
-  age: {
-    type: Number,
+ 
+  address: {
+    type: String,
     min: 0,
     required: true,
   },
 
-  level: {
+  dispatch: {
     type: Number,
     min: 1,
     required: true,
@@ -40,29 +40,29 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+StopSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
   level: doc.level,
 });
 
-DomoSchema.statics.findByOwner = (ownerId, callback) => {
+StopSchema.statics.findByOwner = (ownerId, callback) => {
   const search = {
     owner: convertId(ownerId),
   };
 
-  return DomoModel.find(search).select('name age level').lean().exec(callback);
+  return StopModel.find(search).select('name address dispatch').lean().exec(callback);
 };
 
-DomoSchema.statics.removeDomo = (domoId, callback) => {
+StopSchema.statics.removeStop = (domoId, callback) => {
   const search = {
     _id: convertId(domoId),
   };
 
-  return DomoModel.findByIdAndDelete(search).exec(callback);
+  return StopModel.findByIdAndDelete(search).exec(callback);
 };
 
-DomoModel = mongoose.model('Domo', DomoSchema);
+StopModel = mongoose.model('Stop', StopSchema);
 
-module.exports.DomoModel = DomoModel;
-module.exports.DomoSchema = DomoSchema;
+module.exports.StopModel = StopModel;
+module.exports.DomoSchema = StopSchema;

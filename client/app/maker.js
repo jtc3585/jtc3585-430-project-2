@@ -1,98 +1,98 @@
 
-const handleDomo = (e) => {
+const handleStop = (e) => {
     e.preventDefault ();
 
-    $("#domoMessage").animate({width:'hide'},350);
+    $("#stopMessage").animate({width:'hide'},350);
 
-    if($("#domoName").val() == '' || $("#domoAge").val()== '' || $("#domoLevel").val()== '') {
-        handleError("RAWR! All fields are required");
+    if($("#stopName").val() == '' || $("#stopAddress").val()== '' || $("#stopDispatch").val()== '') {
+        handleError("STOP! All fields are required");
         return false;
     }
 
-    sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function(){
-        loadDomosFromServer();
+    sendAjax('POST', $("#stopForm").attr("action"), $("#stopForm").serialize(), function(){
+        loadStopsFromServer();
     });
 
     return false;
 };
 
-const handleDeleteClick = (domo) => {
-    const domoId = domo._id
+const handleDeleteClick = (stop) => {
+    const stopId = stop._id
     const _csrf = document.querySelector("#tokenInput");
-    const deleteData = `_csrf=${_csrf.value}&domoId=${domoId}`;
-    sendAjax('DELETE', '/delete-domo', deleteData, loadDomosFromServer);
+    const deleteData = `_csrf=${_csrf.value}&stopId=${stopId}`;
+    sendAjax('DELETE', '/delete-stop', deleteData, loadStopsFromServer);
 }
 
-const DomoForm = (props) => {
+const StopForm = (props) => {
     return(
-        <form id="domoForm" 
-        onSubmit={handleDomo}
-        name="domoForm"
+        <form id="stopForm" 
+        onSubmit={handleStop}
+        name="stopForm"
         action="/maker"
         method="POST"
-        className="domoForm"
+        className="stopForm"
         >
             <label htmlFor="name">Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name"/>
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="text" name="age" placeholder="Domo Age"/>
-            <label htmlFor="level">Level: </label>
-            <input id="domoLevel" type="text" name="level" placeholder="Domo Level"/>
+            <input id="stopName" type="text" name="name" placeholder="Stop Name"/>
+            <label htmlFor="address">Address: </label>
+            <input id="stopAddress" type="text" name="address" placeholder="Stop Address"/>
+            <label htmlFor="dispatch">Dispatch: </label>
+            <input id="stopDispatch" type="text" name="dispatch" placeholder="Stop Dispatch"/>
             <input id="tokenInput" type="hidden" name="_csrf" value={props.csrf}/>
-            <input className="makeDomoSubmit" type="submit" value="Make Domo"/>
+            <input className="makeStopSubmit" type="submit" value="Make Stop"/>
             
         </form>
     )
 };
 
-const DomoList = function(props) {
-    if(props.domos.length === 0){
+const StopList = function(props) {
+    if(props.stops.length === 0){
         return(
-            <div className="domoList">
-                <h3 className="emptyDomo">No Domos yet</h3>
+            <div className="stopList">
+                <h3 className="emptyStop">No Stops yet</h3>
             </div>
         )
     }
 
-    const domoNodes = props.domos.map(function(domo) {
+    const stopNodes = props.stops.map(function(stop) {
         return (
-            <div key={domo._id} 
-            className="domo"
-            onClick={()=>handleDeleteClick(domo)}
+            <div key={stop._id} 
+            className="stop"
+            onClick={()=>handleDeleteClick(stop)}
             >
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
-                <h3 className="domoName"> Name: {domo.name} </h3>
-                <h3 className="domoAge"> Age: {domo.age} </h3>
-                <h3 className="domoLevel"> Level: {domo.level} </h3>
+                <img src="/assets/img/stopface.jpeg" alt="stop face" className="stopFace"/>
+                <h3 className="stopName"> Name: {stop.name} </h3>
+                <h3 className="stopAddress"> Address: {stop.address} </h3>
+                <h3 className="stopDispatch"> Dispatch: {stop.dispatch} </h3>
             </div>
         )
     })
 
     return (
-        <div className="domoList">
-            {domoNodes}
+        <div className="stopList">
+            {stopNodes}
         </div>
     )
 }
 
-const loadDomosFromServer =()=>{
-    sendAjax('GET', '/getDomos',null,(data)=>{
+const loadStopsFromServer =()=>{
+    sendAjax('GET', '/getStops',null,(data)=>{
         ReactDOM.render(
-            <DomoList domos={data.domos} />, document.querySelector("#domos")
+            <StopList stops={data.stops} />, document.querySelector("#stops")
         )
     })
 }
 
 const setup = function(csrf){
     ReactDOM.render(
-        <DomoForm csrf={csrf}/>,document.querySelector("#makeDomo")
+        <StopForm csrf={csrf}/>,document.querySelector("#makeStop")
     );
 
     ReactDOM.render(
-        <DomoList domos={[]}/>,document.querySelector("#domos")
+        <StopList stops={[]}/>,document.querySelector("#stops")
     )
 
-    loadDomosFromServer();
+    loadStopsFromServer();
 }
 
 const getToken = () => {

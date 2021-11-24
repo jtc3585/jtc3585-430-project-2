@@ -14,7 +14,7 @@ const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
-const dbURL = 'mongodb+srv://justinConnolly:mongobongo@cluster0.dmf2p.mongodb.net/domoMakerE';
+const dbURL = 'mongodb+srv://justinConnolly:mongobongo@cluster0.dmf2p.mongodb.net/project2';
 
 mongoose.connect(dbURL, (err) => {
   if (err) {
@@ -59,7 +59,7 @@ app.use(session({
   store: new RedisStore({
     client: redisClient,
   }),
-  secret: 'Domo Arigato',
+  secret: 'Green Diamonds',
   resave: true,
   saveUninitialized: true,
   cookie: {

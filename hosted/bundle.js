@@ -1,121 +1,121 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleStop = function handleStop(e) {
   e.preventDefault();
-  $("#domoMessage").animate({
+  $("#stopMessage").animate({
     width: 'hide'
   }, 350);
 
-  if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoLevel").val() == '') {
-    handleError("RAWR! All fields are required");
+  if ($("#stopName").val() == '' || $("#stopAddress").val() == '' || $("#stopDispatch").val() == '') {
+    handleError("STOP! All fields are required");
     return false;
   }
 
-  sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-    loadDomosFromServer();
+  sendAjax('POST', $("#stopForm").attr("action"), $("#stopForm").serialize(), function () {
+    loadStopsFromServer();
   });
   return false;
 };
 
-var handleDeleteClick = function handleDeleteClick(domo) {
-  var domoId = domo._id;
+var handleDeleteClick = function handleDeleteClick(stop) {
+  var stopId = stop._id;
 
   var _csrf = document.querySelector("#tokenInput");
 
-  var deleteData = "_csrf=".concat(_csrf.value, "&domoId=").concat(domoId);
-  sendAjax('DELETE', '/delete-domo', deleteData, loadDomosFromServer);
+  var deleteData = "_csrf=".concat(_csrf.value, "&stopId=").concat(stopId);
+  sendAjax('DELETE', '/delete-stop', deleteData, loadStopsFromServer);
 };
 
-var DomoForm = function DomoForm(props) {
+var StopForm = function StopForm(props) {
   return /*#__PURE__*/React.createElement("form", {
-    id: "domoForm",
-    onSubmit: handleDomo,
-    name: "domoForm",
+    id: "stopForm",
+    onSubmit: handleStop,
+    name: "stopForm",
     action: "/maker",
     method: "POST",
-    className: "domoForm"
+    className: "stopForm"
   }, /*#__PURE__*/React.createElement("label", {
     htmlFor: "name"
   }, "Name: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoName",
+    id: "stopName",
     type: "text",
     name: "name",
-    placeholder: "Domo Name"
+    placeholder: "Stop Name"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "age"
-  }, "Age: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoAge",
+    htmlFor: "address"
+  }, "Address: "), /*#__PURE__*/React.createElement("input", {
+    id: "stopAddress",
     type: "text",
-    name: "age",
-    placeholder: "Domo Age"
+    name: "address",
+    placeholder: "Stop Address"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "level"
-  }, "Level: "), /*#__PURE__*/React.createElement("input", {
-    id: "domoLevel",
+    htmlFor: "dispatch"
+  }, "Dispatch: "), /*#__PURE__*/React.createElement("input", {
+    id: "stopDispatch",
     type: "text",
-    name: "level",
-    placeholder: "Domo Level"
+    name: "dispatch",
+    placeholder: "Stop Dispatch"
   }), /*#__PURE__*/React.createElement("input", {
     id: "tokenInput",
     type: "hidden",
     name: "_csrf",
     value: props.csrf
   }), /*#__PURE__*/React.createElement("input", {
-    className: "makeDomoSubmit",
+    className: "makeStopSubmit",
     type: "submit",
-    value: "Make Domo"
+    value: "Make Stop"
   }));
 };
 
-var DomoList = function DomoList(props) {
-  if (props.domos.length === 0) {
+var StopList = function StopList(props) {
+  if (props.stops.length === 0) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "domoList"
+      className: "stopList"
     }, /*#__PURE__*/React.createElement("h3", {
-      className: "emptyDomo"
-    }, "No Domos yet"));
+      className: "emptyStop"
+    }, "No Stops yet"));
   }
 
-  var domoNodes = props.domos.map(function (domo) {
+  var stopNodes = props.stops.map(function (stop) {
     return /*#__PURE__*/React.createElement("div", {
-      key: domo._id,
-      className: "domo",
+      key: stop._id,
+      className: "stop",
       onClick: function onClick() {
-        return handleDeleteClick(domo);
+        return handleDeleteClick(stop);
       }
     }, /*#__PURE__*/React.createElement("img", {
-      src: "/assets/img/domoface.jpeg",
-      alt: "domo face",
-      className: "domoFace"
+      src: "/assets/img/stopface.jpeg",
+      alt: "stop face",
+      className: "stopFace"
     }), /*#__PURE__*/React.createElement("h3", {
-      className: "domoName"
-    }, " Name: ", domo.name, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoAge"
-    }, " Age: ", domo.age, " "), /*#__PURE__*/React.createElement("h3", {
-      className: "domoLevel"
-    }, " Level: ", domo.level, " "));
+      className: "stopName"
+    }, " Name: ", stop.name, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "stopAddress"
+    }, " Address: ", stop.address, " "), /*#__PURE__*/React.createElement("h3", {
+      className: "stopDispatch"
+    }, " Dispatch: ", stop.dispatch, " "));
   });
   return /*#__PURE__*/React.createElement("div", {
-    className: "domoList"
-  }, domoNodes);
+    className: "stopList"
+  }, stopNodes);
 };
 
-var loadDomosFromServer = function loadDomosFromServer() {
-  sendAjax('GET', '/getDomos', null, function (data) {
-    ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-      domos: data.domos
-    }), document.querySelector("#domos"));
+var loadStopsFromServer = function loadStopsFromServer() {
+  sendAjax('GET', '/getStops', null, function (data) {
+    ReactDOM.render( /*#__PURE__*/React.createElement(StopList, {
+      stops: data.stops
+    }), document.querySelector("#stops"));
   });
 };
 
 var setup = function setup(csrf) {
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoForm, {
+  ReactDOM.render( /*#__PURE__*/React.createElement(StopForm, {
     csrf: csrf
-  }), document.querySelector("#makeDomo"));
-  ReactDOM.render( /*#__PURE__*/React.createElement(DomoList, {
-    domos: []
-  }), document.querySelector("#domos"));
-  loadDomosFromServer();
+  }), document.querySelector("#makeStop"));
+  ReactDOM.render( /*#__PURE__*/React.createElement(StopList, {
+    stops: []
+  }), document.querySelector("#stops"));
+  loadStopsFromServer();
 };
 
 var getToken = function getToken() {
@@ -131,13 +131,13 @@ $(document).ready(function () {
 
 var handleError = function handleError(message) {
   $("#errorMessage").text(message);
-  $("#domoMessage").animate({
+  $("#stopMessage").animate({
     width: 'toggle'
   }, 350);
 };
 
 var redirect = function redirect(response) {
-  $("domoMessage").animate({
+  $("stopMessage").animate({
     width: 'hide'
   }, 350);
   window.location = response.redirect;
