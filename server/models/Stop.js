@@ -15,7 +15,7 @@ const StopSchema = new mongoose.Schema({
     trim: true,
     set: setName,
   },
- 
+
   address: {
     type: String,
     min: 0,

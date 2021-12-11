@@ -3,7 +3,7 @@ const models = require('../models');
 
 const { Stop } = models;
 
-const makerPage = (req, res) => {
+const stopsPage = (req, res) => {
   Stop.StopModel.findByOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
@@ -29,7 +29,7 @@ const makeStop = (req, res) => {
 
   const stopPromise = newStop.save();
 
-  stopPromise.then(() => res.json({ redirect: '/maker' }));
+  stopPromise.then(() => res.json({ redirect: '/stops' }));
 
   stopPromise.catch((err) => {
     console.log(err);
@@ -68,11 +68,11 @@ const deleteStop = (request, response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-    return res.json({ redirect: '/maker' });
+    return res.json({ redirect: '/stops' });
   });
 };
 
-module.exports.makerPage = makerPage;
+module.exports.stopsPage = stopsPage;
 module.exports.getStops = getStops;
 module.exports.deleteStop = deleteStop;
-module.exports.make = makeStop;
+module.exports.makeStop = makeStop;

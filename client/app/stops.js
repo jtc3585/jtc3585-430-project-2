@@ -21,14 +21,34 @@ const handleDeleteClick = (stop) => {
     const _csrf = document.querySelector("#tokenInput");
     const deleteData = `_csrf=${_csrf.value}&stopId=${stopId}`;
     sendAjax('DELETE', '/delete-stop', deleteData, loadStopsFromServer);
-}
+} 
+
+const handlePassChange = (e) => {
+    e.preventDefault();
+
+    $("#stopMessage").animate({width:'hide'},350);
+
+    if($("#pass").val()==''|| $("#pass2").val()==''){
+        handleError("STOP! All fields are required");
+        return false;
+    }
+
+    if($("#pass").val() === $("#pass2").val()){
+        handleError("STOP! Passwords should not match");
+        return false;
+    }
+
+    sendAjax('POST', $("#accountForm").attr("action"), $("#accountForm").serialize(), redirect);
+
+    return false;
+};
 
 const StopForm = (props) => {
     return(
         <form id="stopForm" 
         onSubmit={handleStop}
         name="stopForm"
-        action="/maker"
+        action="/stops"
         method="POST"
         className="stopForm"
         >
@@ -75,6 +95,27 @@ const StopList = function(props) {
     )
 }
 
+const AccountList = function(props) {
+
+    const accountNodes = props.accounts.map(function(account) {
+        return (
+            <div key={account.username} 
+            className="account"
+            >
+                <img src="/assets/img/stopface.jpeg" alt="stop face" className="stopFace"/>
+                <h3 className="accountName"> Username: {account.username} </h3>
+                <h3 className="stopAddress"> Created Date: {account.createdDate} </h3>
+            </div>
+        )
+    })
+
+    return (
+        <div className="accounts">
+            {accountNodes}
+        </div>
+    )
+}
+
 const loadStopsFromServer =()=>{
     sendAjax('GET', '/getStops',null,(data)=>{
         ReactDOM.render(
@@ -83,7 +124,56 @@ const loadStopsFromServer =()=>{
     })
 }
 
+const AccountWindow = (props) => {
+    return(
+        <form id="accountForm" name="accountForm"
+        onSubmit={handlePassChange}
+        action="/passChange"
+        method="POST"
+        className="mainForm"
+        >
+            <label clasName="passwordLabel" htmlFor="pass">Old Password: </label>
+            <input id="pass" type="password" name="pass" placeholder="old password"/>
+            <label className="passwordLabel" htmlFor="pass2">New Password: </label>
+            <input id="pass2" type="password" name="pass2" placeholder="new password"/>
+            <input type="hidden" name="_csrf" value={props.csrf}/>
+            <input className="formSubmit" type="submit" value="Change Password"/>
+
+        </form>
+    )
+}
+
+const createAccountWindow = (csrf) => {
+    ReactDOM.render(
+        <AccountWindow csrf={csrf} />,
+        document.querySelector("#content")
+    )
+}
+
+const createAdminWindow = (csrf) => {
+    sendAjax('GET', '/getAccounts',null,(data)=>{
+        ReactDOM.render(
+            <AccountList accounts={data.account} />, document.querySelector("#content")
+        )
+    })
+}
+
 const setup = function(csrf){
+    const accountButton = document.querySelector("#accountButton");
+    const adminButton = document.querySelector("#adminButton");
+
+    accountButton.addEventListener("click",(e)=>{
+        e.preventDefault();
+        createAccountWindow(csrf);
+        return false;
+    });
+
+    adminButton.addEventListener("click",(e)=>{
+        e.preventDefault();
+        createAdminWindow(csrf);
+        return false;
+    });
+
     ReactDOM.render(
         <StopForm csrf={csrf}/>,document.querySelector("#makeStop")
     );
@@ -91,6 +181,8 @@ const setup = function(csrf){
     ReactDOM.render(
         <StopList stops={[]}/>,document.querySelector("#stops")
     )
+
+
 
     loadStopsFromServer();
 }

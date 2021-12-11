@@ -6,18 +6,39 @@ html, body {
     overflow-x: hidden;
 }
 
+h3{
+    font-family: "Audiowide", sans-serif ;
+}
+
+label{
+    font-family: "Audiowide", sans-serif ;
+    padding-right: 20px;
+}
 #logo {
     height: 40px;
-    width: 40;
+    width: 50;
+    padding-top: px;
+    padding-left: 5px;
+    float:left;
+}
+
+#logoHeader {
+    height: 40px;
+    width: 200;
     padding-top: 5px;
     float:left;
-    border-radius: 8px;
+    font-family: "Audiowide", sans-serif ;
+    
+}
+
+#logoHeader:link, #logoHeader:visited, #logoHeader:hover, #logoHeader:active {
+    color: white;
 }
 
 nav {
     width: 100%;
-    height: 50px;
-    background-color: #55acee;
+    height: 60px;
+    background-color: #344653;
 }
 
 nav:nth-child(1) {
@@ -27,10 +48,12 @@ nav:nth-child(1) {
 .navlink {
     padding: 5px;
     padding-top: 12px;
+    padding-bottom: 12px;
     padding-left: 20px;
+    padding-right: 20px;
     color: white;
     font-size: 1.3em;
-    float: left;
+    float: right;
 }
 
 .navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
@@ -38,28 +61,28 @@ nav:nth-child(1) {
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #008000;
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
+    background-color: #344653;
 }
 
 .stopForm {
-    border: 2px solid #338acc;
-    height: 35px;
-    width: 900px;
+    border: 2px solid #008000;
+    height: 50px;
+    width: 1000px;
     margin-top:0px;
     padding-top:10px;
-    background-color: #55acee;
+    background-color: #008000;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
 }
 
 .stopForm label {
-    width: 75px;
+    width: auto;
     margin-left: 10px;
     font-size: 1.2em;
     float: left;
@@ -67,6 +90,7 @@ nav:nth-child(1) {
 }
 
 .stopForm input[type=text] {
+    width:auto;
     float:left;
 }
 
@@ -74,8 +98,9 @@ nav:nth-child(1) {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
-    background-color: #55acee;
+    background-color: #344653;
     border-radius: 2px;
+    padding-left: 10px;
     color: white;
     text-decoration: none;
 }
@@ -86,7 +111,7 @@ nav:nth-child(1) {
 
 .makeStopSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #008000;
 }
 
 .mainForm {
@@ -103,8 +128,10 @@ nav:nth-child(1) {
 
 .mainForm label {
     display: inline-block;
-    width: 100px;
+    width: 150px;
     margin-right: 10px;
+    padding-right: 20px;
+    padding-bottom: 20px;
     text-align: right;
     font-size: 1.2em;
 }
@@ -116,11 +143,11 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 14px;
     font-size: 1.2em;
-    width: 100px;
-    background-color: #55acee;
-    border-radius: 2px;
-    border-color: #66acee;
-    padding: 3px 0px;
+    width: auto;
+    background-color: #008000;
+    border-radius: 6px;
+    border-color: #008000;
+    padding: 4px 6px;
     color: white;
     text-decoration: none;
 }
@@ -131,7 +158,7 @@ nav:nth-child(1) {
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #008000;
 }
 
 #user, #pass, #pass2 {
@@ -143,7 +170,7 @@ nav:nth-child(1) {
 
 #user:focus, #pass:focus, #pass2:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
+    box-shadow: 0px 0px 1px 1px #008000;
 }
 
 #stopMessage {
@@ -191,7 +218,7 @@ nav:nth-child(1) {
 #stops {
     width: 60%;
     min-width: 400px;
-    border: 2px solid #55acee;
+    border: 2px solid #008000;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
@@ -202,19 +229,44 @@ nav:nth-child(1) {
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #344653;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #344653;
+    color: white;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
 }
 
 .stop:hover {
-    transition: border-color 0.2s ease-out;
-    border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
+    background-color: #5aaa6c;
+}
+
+#account {
+    z-index: 225;
+    margin-top: 40px;
+    margin-left: 60px;
+    height: 450px;
+    width: 350px;
+    -ms-transform: rotate(330deg);
+    -webkit-transform: rotate(330deg); 
+    transform: rotate(330deg);
+}
+
+.account {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    padding: 15px;
+    border: 2px solid #344653;
+    border-radius: 4px;
+    background-color: #344653;
+    color: white;
+    padding: 10px;
+    min-height:60px;
+    overflow: hidden;
 }
 
 img.stopFace {
@@ -248,7 +300,7 @@ h3.stopAddress {
     text-align: left;
     width: 300px;
     font-weight: bold;
-    padding-right: 40px;
+    padding-right: 80px;
     font-size: 1.5em;
 }
 
@@ -267,4 +319,28 @@ h3.stopDispatch {
 
 .stop:last-child {
     margin-bottom:10px;
+}
+
+#stopForm {
+    border: 2px solid #008000;
+    height: 50px;
+    width: 1000px;
+    margin-top:0px;
+    padding-top:10px;
+    background-color: #008000;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.stopForm label {
+    width: auto;
+    margin-left: 10px;
+    font-size: 1.2em;
+    float: left;
+    color: white;
+}
+
+.stopForm input[type=text] {
+    width:auto;
+    float:left;
 }

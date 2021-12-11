@@ -5,6 +5,7 @@
     "no-plusplus": "off",
     "import/extensions": "off",
     "no-undef":"warn",
-    "no-unused-vars":"warn"
+    "no-unused-vars":"warn",
+    "no-shadow":"warn"
   }
 }
